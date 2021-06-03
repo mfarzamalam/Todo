@@ -1,0 +1,9 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+
+    <h4>This is from actions page</h4>
+    <a href="{% url 'crud:read' %}  ">Read</a><br>
+    <a href="{% url 'crud:create' %}">Create</a>
+
+{% endblock main %}
