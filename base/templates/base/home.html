@@ -1,6 +1,10 @@
 {% extends 'base/base.html' %}
 
 {% block main %}
+
+        <div class="container-fluid">
             <h1>Welcome To Home Page</h1>
-            <a href="{% url 'crud:action' %}">Action Page</a>
+            <a href="{% url 'crud:create_read' %}">Action Page</a>
+        </div>
+
 {% endblock main %}

@@ -1,9 +1,49 @@
 {% extends 'base/base.html' %}
 
 {% block main %}
+    <div class="container-fluid">
+        <h4 class="text-center alert alert-danger"> FUNCTION BASED CRUD VIEW USING AJAX</h4>
 
-    <h4>This is from actions page</h4>
-    <a href="{% url 'crud:read' %}  ">Read</a><br>
-    <a href="{% url 'crud:create' %}">Create</a>
+        <div class="row">
+            
+            <div class="col-lg-6">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+
+            <div class="col-lg-6">
+
+                <table>
+                    <thead>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th>Actions</th>
+                    </thead>
+
+                    {% for user in users %}
+                    
+                        <tr>
+                            <td>{{user.name}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.age}}</td>
+                            <td>
+                                <a href="{% url 'crud:update' user.id %}">Edit</a>
+                                <a href="{% url 'crud:delete' user.id %}">Delete</a>
+                            </td>
+                        </tr>   
+
+                    {% endfor %}
+                
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
 
 {% endblock main %}
