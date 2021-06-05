@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import (
-    create_read,
+    read,
+    create,
     update,
     delete,
 )
@@ -8,7 +9,8 @@ from .views import (
 app_name = 'crud'
 
 urlpatterns = [
-    path('',                  create_read, name='create_read'),
+    path('',                  read, name='read'),
+    path('create/',           create, name='create'),
     path('update/<int:pk>/',  update, name='update'),
     path('delete/<int:pk>/',  delete, name='delete'),
 ]

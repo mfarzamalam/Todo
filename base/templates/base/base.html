@@ -17,8 +17,10 @@
 
         {% block main %}{% endblock main %}
 
-        <script src="{% static 'base/js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'base/js/popper.js' %}"></script>
         <script src="{% static 'base/js/jquery.js' %}"></script>
+        <script src="{% static 'base/js/popper.js' %}"></script>
+        <script src="{% static 'base/js/bootstrap.min.js' %}"></script>
+        {% include 'crud/ajax.html' %}
+
 </body>
 </html>

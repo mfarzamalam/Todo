@@ -1,0 +1,32 @@
+<script>
+$("#btnsave").click(function () {
+    console.log("Save button click");
+    
+    let name  = $('#nameId').val();
+    let email = $('#emailId').val();
+    let age   = $('#ageId').val();
+    let csrf  = $("input[name=csrfmiddlewaretoken]").val();
+
+    if (name == "" || email == "" || age == ""){
+        console.log("Please fill all the textboxes");
+    } else {
+            data = { name:name, email:email, age:age, csrfmiddlewaretoken:csrf};
+            $.ajax({
+            url: "{% url 'crud:create' %}",
+            method: "POST",
+            data: data,
+            success: function(data){
+                //console.log(data);
+                if (data.status == "Saved") {
+                    console.log("Form Submitted Successfully");
+                    $("form")[0].reset();
+                    console.log(data.users_data)
+                }else{
+                    console.log("Failed To Submit");
+                }
+            },
+        });
+    }
+});
+
+</script>
