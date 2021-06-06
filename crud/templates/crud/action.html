@@ -9,9 +9,13 @@
             <div class="col-lg-6">
                 <form action="" method="POST" novalidate>
                     {% csrf_token %}
+                    <input type="hidden" name="stid" id="stId">
                     {{form.as_p}}
                     <input id="btnsave" type="button" value="Save">
                 </form>
+
+                <div id="Smsg" class="alert alert-success mt-3" style="width: 50%; display:none;"></div>
+                <div id="Emsg" class="alert alert-danger mt-3" style="width: 50%; display:none;"></div>
             </div>
 
             <div class="col-lg-6">

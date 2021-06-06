@@ -2,15 +2,18 @@
 $("#btnsave").click(function () {
     console.log("Save button click");
     output    = '';    
+    let id    = $('#stId').val();
     let name  = $('#nameId').val();
     let email = $('#emailId').val();
     let age   = $('#ageId').val();
     let csrf  = $("input[name=csrfmiddlewaretoken]").val();
 
     if (name == "" || email == "" || age == ""){
-        console.log("Please fill all the textboxes");
+        //console.log("Please fill all the textboxes");
+        $('#Emsg').text("Please fill all the textboxes");
+        $('#Emsg').show();
     } else {
-            data = { name:name, email:email, age:age, csrfmiddlewaretoken:csrf};
+            data = {id:id, name:name, email:email, age:age, csrfmiddlewaretoken:csrf};
             $.ajax({
             url: "{% url 'crud:create' %}",
             method: "POST",
@@ -20,6 +23,9 @@ $("#btnsave").click(function () {
                 x = data.users_data;
                 if (data.status == "Saved") {
 //                    console.log("Form Submitted Successfully");
+                    $('#Smsg').text("Form Submitted Successfully");
+                    $('#Smsg').show();
+
                     for (i=0; i<x.length; i++){
                         output += "<tr>"
                                       +"<td>" + (i+1) +")" +    "</td>"
@@ -33,22 +39,25 @@ $("#btnsave").click(function () {
                                    +"</tr>";
                         }
 
-                        $("#userData").html(output);
-
-//                    $("form")[0].reset();
+                    $("#userData").html(output);
+                    $("#stId").val('');
+                    $("form")[0].reset();
                     console.log(data.users_data)
                 }else{
-                    console.log("Failed To Submit");
+                    $('#Emsg').text("Failed To Submit");
+                    $('#Emsg').show();
+                    //console.log("Failed To Submit");
                 }
             },
         });
     }
 });
 
+            /// Delete View
+
 
 $("tbody").on("click", "#delete", function(){
     console.log("Button delete clicked");
-    output    = '';    
     let id = $(this).attr("data-sid");
     let csrf  = $("input[name=csrfmiddlewaretoken]").val();
 
@@ -65,6 +74,34 @@ $("tbody").on("click", "#delete", function(){
                 $(mythis).closest("tr").fadeOut();
             }else{
                 console.log("Failed To Delete");
+            }
+        },
+    });
+});
+
+            /// Edit View
+
+$("tbody").on("click", "#edit", function(){
+    console.log("Button Edit clicked");
+    let id = $(this).attr("data-sid");
+    let csrf  = $("input[name=csrfmiddlewaretoken]").val();
+
+    //console.log(id);
+    data = {id:id, csrfmiddlewaretoken:csrf};
+    $.ajax({
+        url: "{% url 'crud:update' %}",
+        method: "POST",
+        data: data,
+        success: function(data) {
+            if (data.status == 1) {
+                //console.log("Successfully Edited");
+                $('#stId').val(data.user.id);
+                $('#nameId').val(data.user.name);
+                $('#emailId').val(data.user.email);
+                $('#ageId').val(data.user.age);
+
+            }else{
+                console.log("Failed To Edit");
             }
         },
     });
