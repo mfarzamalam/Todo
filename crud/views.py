@@ -18,11 +18,9 @@ def create(request):
         if form.is_valid():
             form.save()
             users = User.objects.values()
-            # print(users)
             users_data = list(users)
             # print(user_data)
             return JsonResponse({'status':"Saved", 'users_data':users_data})
-
         else:
             return JsonResponse({'status':0})
 
@@ -40,8 +38,14 @@ def update(request,pk):
     context = {'form':form, 'users':users}
     return render(request, 'crud/action.html', context)
 
-def delete(request,pk):
-    user = User.objects.filter(pk=pk)
-    user.delete()
 
-    return redirect('/action')
+def delete(request):
+    if request.method == "POST":
+        pk = request.POST.get('id')
+        user = User.objects.get(pk=pk)
+        user.delete()
+        users = User.objects.values()
+        users_data = list(users)
+        return JsonResponse({'status':1, 'users_data':users_data})
+    else:
+        return JsonResponse({'status':0})

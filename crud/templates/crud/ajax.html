@@ -1,7 +1,7 @@
 <script>
 $("#btnsave").click(function () {
     console.log("Save button click");
-    
+    output    = '';    
     let name  = $('#nameId').val();
     let email = $('#emailId').val();
     let age   = $('#ageId').val();
@@ -17,9 +17,25 @@ $("#btnsave").click(function () {
             data: data,
             success: function(data){
                 //console.log(data);
+                x = data.users_data;
                 if (data.status == "Saved") {
-                    console.log("Form Submitted Successfully");
-                    $("form")[0].reset();
+//                    console.log("Form Submitted Successfully");
+                    for (i=0; i<x.length; i++){
+                        output += "<tr>"
+                                      +"<td>" + (i+1) +")" +    "</td>"
+                                      +"<td>" + x[i].name + "</td>"
+                                      +"<td>" + x[i].email + "</td>"
+                                      +"<td>" + x[i].age +   "</td>"
+                                      +"<td>" 
+                                            +"<input type='button' class='btn btn-warning btn-sm' value='Edit' id='edit' data-sid=" + x[i].id +">"
+                                            +" <input type='button' class='btn btn-danger btn-sm' value='Delete' id='delete' data-sid=" + x[i].id +">"
+                                       +"</td>"
+                                   +"</tr>";
+                        }
+
+                        $("#userData").html(output);
+
+//                    $("form")[0].reset();
                     console.log(data.users_data)
                 }else{
                     console.log("Failed To Submit");
@@ -27,6 +43,31 @@ $("#btnsave").click(function () {
             },
         });
     }
+});
+
+
+$("tbody").on("click", "#delete", function(){
+    console.log("Button delete clicked");
+    output    = '';    
+    let id = $(this).attr("data-sid");
+    let csrf  = $("input[name=csrfmiddlewaretoken]").val();
+
+    //console.log(id);
+    data = {id:id, csrfmiddlewaretoken:csrf},
+    mythis = this;
+    $.ajax({
+        url: "{% url 'crud:delete' %}",
+        method: "POST",
+        data: data,
+        success: function(data) {
+            if (data.status == 1) {
+                console.log("Successfully Deleted");
+                $(mythis).closest("tr").fadeOut();
+            }else{
+                console.log("Failed To Delete");
+            }
+        },
+    });
 });
 
 </script>

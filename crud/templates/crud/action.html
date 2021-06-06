@@ -25,21 +25,24 @@
                         <th>Actions</th>
                     </thead>
 
-                    {% for user in users %}
-                    
-                        <tr>
-                            <td>{{forloop.counter}})</td>
-                            <td>{{user.name}}</td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.age}}</td>
-                            <td>
-                                <a href="{% url 'crud:update' user.id %}">Edit</a>
-                                <a href="{% url 'crud:delete' user.id %}">Delete</a>
-                            </td>
-                        </tr>   
+                    <tbody id="userData">
 
-                    {% endfor %}
-                
+                        {% for user in users %}
+                            <tr>
+                                <td>{{forloop.counter}})</td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.email}}</td>
+                                <td>{{user.age}}</td>
+                                <td>
+                                    <input type="button" data-sid="{{user.id}}" id="edit" class="btn btn-warning btn-sm" value="Edit">
+                                    <input type="button" data-sid="{{user.id}}" id="delete" class="btn btn-danger btn-sm" value="Delete">
+                                </td>
+                            </tr>   
+
+                        {% endfor %}
+                    
+                    </tbody>
+                                    
                 </table>
 
             </div>

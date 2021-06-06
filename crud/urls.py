@@ -9,8 +9,8 @@ from .views import (
 app_name = 'crud'
 
 urlpatterns = [
-    path('',                  read, name='read'),
-    path('create/',           create, name='create'),
-    path('update/<int:pk>/',  update, name='update'),
-    path('delete/<int:pk>/',  delete, name='delete'),
+    path('',         read, name='read'),
+    path('create/',  create, name='create'),
+    path('update/',  update, name='update'),
+    path('delete/',  delete, name='delete'),
 ]
